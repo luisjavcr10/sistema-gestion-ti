@@ -6,6 +6,8 @@ import os
 from datetime import date, datetime
 
 API_URL = os.getenv("API_GATEWAY_URL", "http://api-gateway:8000")
+if not API_URL.startswith("http"):
+    API_URL = f"http://{API_URL}"
 
 st.set_page_config(page_title="Gestión de Mantenimiento", page_icon="🔧", layout="wide")
 

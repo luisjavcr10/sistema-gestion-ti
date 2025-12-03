@@ -7,6 +7,8 @@ import os
 import altair as alt
 
 API_URL = os.getenv("API_GATEWAY_URL", "http://api-gateway:8000")
+if not API_URL.startswith("http"):
+    API_URL = f"http://{API_URL}"
 
 st.set_page_config(page_title="Reportes y Análisis", page_icon="📊", layout="wide")
 
