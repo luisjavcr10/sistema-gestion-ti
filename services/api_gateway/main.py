@@ -18,12 +18,18 @@ app.add_middleware(
 )
 
 # Service URLs
+def get_service_url(env_var, default):
+    url = os.getenv(env_var, default)
+    if not url.startswith("http"):
+        return f"http://{url}"
+    return url
+
 SERVICES = {
-    "equipos": os.getenv("EQUIPOS_SERVICE_URL", "http://equipos-service:8001"),
-    "proveedores": os.getenv("PROVEEDORES_SERVICE_URL", "http://proveedores-service:8002"),
-    "mantenimientos": os.getenv("MANTENIMIENTO_SERVICE_URL", "http://mantenimiento-service:8003"),
-    "reportes": os.getenv("REPORTES_SERVICE_URL", "http://reportes-service:8004"),
-    "agents": os.getenv("AGENT_SERVICE_URL", "http://agent-service:8005"),
+    "equipos": get_service_url("EQUIPOS_SERVICE_URL", "http://equipos-service:8001"),
+    "proveedores": get_service_url("PROVEEDORES_SERVICE_URL", "http://proveedores-service:8002"),
+    "mantenimiento": get_service_url("MANTENIMIENTO_SERVICE_URL", "http://mantenimiento-service:8003"),
+    "reportes": get_service_url("REPORTES_SERVICE_URL", "http://reportes-service:8004"),
+    "agent": get_service_url("AGENT_SERVICE_URL", "http://agent-service:8005"),
 }
 
 client = httpx.AsyncClient()

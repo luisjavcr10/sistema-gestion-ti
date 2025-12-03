@@ -15,6 +15,8 @@ st.set_page_config(
 )
 
 API_URL = os.getenv("API_GATEWAY_URL", "http://api-gateway:8000")
+if not API_URL.startswith("http"):
+    API_URL = f"http://{API_URL}"
 
 # Helper functions
 def get_dashboard_data():
