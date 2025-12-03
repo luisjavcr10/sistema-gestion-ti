@@ -15,8 +15,11 @@ st.set_page_config(
 )
 
 API_URL = os.getenv("API_GATEWAY_URL", "http://api-gateway:8000")
+# If API_URL is just a hostname (no protocol, no port), add them
 if not API_URL.startswith("http"):
     API_URL = f"http://{API_URL}"
+if ":8000" not in API_URL and "onrender.com" not in API_URL:
+     API_URL = f"{API_URL}:8000"
 
 # DEBUG SECTION
 with st.expander("🔍 Debug Info (Despliegue)"):

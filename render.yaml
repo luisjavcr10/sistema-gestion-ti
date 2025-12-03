@@ -16,7 +16,7 @@ services:
         fromService:
           type: web
           name: ti-gateway
-          property: hostport
+          property: host
 
   # --------------------------------------------------------------------------------
   # API GATEWAY
@@ -35,27 +35,27 @@ services:
         fromService:
           type: web
           name: ti-equipos
-          property: hostport
+          property: host
       - key: PROVEEDORES_SERVICE_URL
         fromService:
           type: web
           name: ti-proveedores
-          property: hostport
+          property: host
       - key: MANTENIMIENTO_SERVICE_URL
         fromService:
           type: web
           name: ti-mantenimiento
-          property: hostport
+          property: host
       - key: REPORTES_SERVICE_URL
         fromService:
           type: web
           name: ti-reportes
-          property: hostport
+          property: host
       - key: AGENT_SERVICE_URL
         fromService:
           type: web
           name: ti-agent
-          property: hostport
+          property: host
 
   # --------------------------------------------------------------------------------
   # MICROSERVICES
