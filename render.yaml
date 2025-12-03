@@ -1,0 +1,159 @@
+services:
+  # --------------------------------------------------------------------------------
+  # FRONTEND
+  # --------------------------------------------------------------------------------
+  - type: web
+    name: sistema-gestion-ti-frontend
+    env: docker
+    region: oregon
+    plan: free
+    dockerContext: ./frontend
+    envVars:
+      - key: PORT
+        value: 8501
+      - key: API_GATEWAY_URL
+        fromService:
+          type: web
+          name: sistema-gestion-ti-api-gateway
+          property: url
+
+  # --------------------------------------------------------------------------------
+  # API GATEWAY
+  # --------------------------------------------------------------------------------
+  - type: web
+    name: sistema-gestion-ti-api-gateway
+    env: docker
+    region: oregon
+    plan: free
+    dockerContext: ./services/api_gateway
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: EQUIPOS_SERVICE_URL
+        fromService:
+          type: web
+          name: sistema-gestion-ti-equipos
+          property: url
+      - key: PROVEEDORES_SERVICE_URL
+        fromService:
+          type: web
+          name: sistema-gestion-ti-proveedores
+          property: url
+      - key: MANTENIMIENTO_SERVICE_URL
+        fromService:
+          type: web
+          name: sistema-gestion-ti-mantenimiento
+          property: url
+      - key: REPORTES_SERVICE_URL
+        fromService:
+          type: web
+          name: sistema-gestion-ti-reportes
+          property: url
+      - key: AGENT_SERVICE_URL
+        fromService:
+          type: web
+          name: sistema-gestion-ti-agent
+          property: url
+
+  # --------------------------------------------------------------------------------
+  # MICROSERVICES
+  # --------------------------------------------------------------------------------
+  - type: web
+    name: sistema-gestion-ti-equipos
+    env: docker
+    region: oregon
+    plan: free
+    dockerContext: ./services/equipos_service
+    envVars:
+      - key: PORT
+        value: 8001
+      - key: POSTGRES_HOST
+        sync: false
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: POSTGRES_DB
+        sync: false
+      - key: POSTGRES_PORT
+        value: 5432
+
+  - type: web
+    name: sistema-gestion-ti-proveedores
+    env: docker
+    region: oregon
+    plan: free
+    dockerContext: ./services/proveedores_service
+    envVars:
+      - key: PORT
+        value: 8002
+      - key: POSTGRES_HOST
+        sync: false
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: POSTGRES_DB
+        sync: false
+      - key: POSTGRES_PORT
+        value: 5432
+
+  - type: web
+    name: sistema-gestion-ti-mantenimiento
+    env: docker
+    region: oregon
+    plan: free
+    dockerContext: ./services/mantenimiento_service
+    envVars:
+      - key: PORT
+        value: 8003
+      - key: POSTGRES_HOST
+        sync: false
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: POSTGRES_DB
+        sync: false
+      - key: POSTGRES_PORT
+        value: 5432
+
+  - type: web
+    name: sistema-gestion-ti-reportes
+    env: docker
+    region: oregon
+    plan: free
+    dockerContext: ./services/reportes_service
+    envVars:
+      - key: PORT
+        value: 8004
+      - key: POSTGRES_HOST
+        sync: false
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: POSTGRES_DB
+        sync: false
+      - key: POSTGRES_PORT
+        value: 5432
+
+  - type: web
+    name: sistema-gestion-ti-agent
+    env: docker
+    region: oregon
+    plan: free
+    dockerContext: ./services/agent_service
+    envVars:
+      - key: PORT
+        value: 8005
+      - key: POSTGRES_HOST
+        sync: false
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: POSTGRES_DB
+        sync: false
+      - key: POSTGRES_PORT
+        value: 5432
