@@ -1,0 +1,162 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - ti-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  api-gateway:
+    build: ./services/api_gateway
+    container_name: api_gateway
+    ports:
+      - "${PORT_API_GATEWAY}:8000"
+    environment:
+      - EQUIPOS_SERVICE_URL=http://equipos-service:8001
+      - PROVEEDORES_SERVICE_URL=http://proveedores-service:8002
+      - MANTENIMIENTO_SERVICE_URL=http://mantenimiento-service:8003
+      - REPORTES_SERVICE_URL=http://reportes-service:8004
+      - AGENT_SERVICE_URL=http://agent-service:8005
+    depends_on:
+      - equipos-service
+      - proveedores-service
+      - mantenimiento-service
+      - reportes-service
+      - agent-service
+    networks:
+      - ti-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  equipos-service:
+    build: ./services/equipos_service
+    container_name: equipos_service
+    ports:
+      - "${PORT_EQUIPOS}:8001"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ti-network
+    restart: unless-stopped
+
+  proveedores-service:
+    build: ./services/proveedores_service
+    container_name: proveedores_service
+    ports:
+      - "${PORT_PROVEEDORES}:8002"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ti-network
+    restart: unless-stopped
+
+  mantenimiento-service:
+    build: ./services/mantenimiento_service
+    container_name: mantenimiento_service
+    ports:
+      - "${PORT_MANTENIMIENTO}:8003"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ti-network
+    restart: unless-stopped
+
+  reportes-service:
+    build: ./services/reportes_service
+    container_name: reportes_service
+    ports:
+      - "${PORT_REPORTES}:8004"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+    volumes:
+      - reportes_data:/app/reportes
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ti-network
+    restart: unless-stopped
+
+  agent-service:
+    build: ./services/agent_service
+    container_name: agent_service
+    ports:
+      - "${PORT_AGENT}:8005"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ti-network
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "${PORT_FRONTEND}:8501"
+    environment:
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    networks:
+      - ti-network
+    restart: unless-stopped
+
+networks:
+  ti-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  reportes_data:
