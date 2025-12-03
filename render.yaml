@@ -3,7 +3,7 @@ services:
   # FRONTEND
   # --------------------------------------------------------------------------------
   - type: web
-    name: sistema-gestion-ti-frontend
+    name: ti-frontend
     env: docker
     region: oregon
     plan: free
@@ -15,14 +15,14 @@ services:
       - key: API_GATEWAY_URL
         fromService:
           type: web
-          name: sistema-gestion-ti-api-gateway
+          name: ti-gateway
           property: hostport
 
   # --------------------------------------------------------------------------------
   # API GATEWAY
   # --------------------------------------------------------------------------------
   - type: web
-    name: sistema-gestion-ti-api-gateway
+    name: ti-gateway
     env: docker
     region: oregon
     plan: free
@@ -34,34 +34,34 @@ services:
       - key: EQUIPOS_SERVICE_URL
         fromService:
           type: web
-          name: sistema-gestion-ti-equipos
+          name: ti-equipos
           property: hostport
       - key: PROVEEDORES_SERVICE_URL
         fromService:
           type: web
-          name: sistema-gestion-ti-proveedores
+          name: ti-proveedores
           property: hostport
       - key: MANTENIMIENTO_SERVICE_URL
         fromService:
           type: web
-          name: sistema-gestion-ti-mantenimiento
+          name: ti-mantenimiento
           property: hostport
       - key: REPORTES_SERVICE_URL
         fromService:
           type: web
-          name: sistema-gestion-ti-reportes
+          name: ti-reportes
           property: hostport
       - key: AGENT_SERVICE_URL
         fromService:
           type: web
-          name: sistema-gestion-ti-agent
+          name: ti-agent
           property: hostport
 
   # --------------------------------------------------------------------------------
   # MICROSERVICES
   # --------------------------------------------------------------------------------
   - type: web
-    name: sistema-gestion-ti-equipos
+    name: ti-equipos
     env: docker
     region: oregon
     plan: free
@@ -82,7 +82,7 @@ services:
         value: 5432
 
   - type: web
-    name: sistema-gestion-ti-proveedores
+    name: ti-proveedores
     env: docker
     region: oregon
     plan: free
@@ -103,7 +103,7 @@ services:
         value: 5432
 
   - type: web
-    name: sistema-gestion-ti-mantenimiento
+    name: ti-mantenimiento
     env: docker
     region: oregon
     plan: free
@@ -124,7 +124,7 @@ services:
         value: 5432
 
   - type: web
-    name: sistema-gestion-ti-reportes
+    name: ti-reportes
     env: docker
     region: oregon
     plan: free
@@ -145,7 +145,7 @@ services:
         value: 5432
 
   - type: web
-    name: sistema-gestion-ti-agent
+    name: ti-agent
     env: docker
     region: oregon
     plan: free
