@@ -16,7 +16,7 @@ services:
         fromService:
           type: web
           name: ti-gateway
-          property: url
+          property: host
 
   # --------------------------------------------------------------------------------
   # API GATEWAY
