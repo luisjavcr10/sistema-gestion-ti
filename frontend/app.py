@@ -18,6 +18,18 @@ API_URL = os.getenv("API_GATEWAY_URL", "http://api-gateway:8000")
 if not API_URL.startswith("http"):
     API_URL = f"http://{API_URL}"
 
+# DEBUG SECTION
+with st.expander("🔍 Debug Info (Despliegue)"):
+    st.write(f"**API_URL Configurada:** `{API_URL}`")
+    if st.button("Probar Conexión con Gateway"):
+        try:
+            r = requests.get(f"{API_URL}/health", timeout=5)
+            st.success(f"Conexión Exitosa: {r.status_code}")
+            st.json(r.json())
+        except Exception as e:
+            st.error(f"Error de Conexión: {e}")
+# END DEBUG SECTION
+
 # Helper functions
 def get_dashboard_data():
     try:
