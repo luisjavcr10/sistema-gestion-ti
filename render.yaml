@@ -35,27 +35,27 @@ services:
         fromService:
           type: web
           name: ti-equipos
-          property: host
+          property: url
       - key: PROVEEDORES_SERVICE_URL
         fromService:
           type: web
           name: ti-proveedores
-          property: host
+          property: url
       - key: MANTENIMIENTO_SERVICE_URL
         fromService:
           type: web
           name: ti-mantenimiento
-          property: host
+          property: url
       - key: REPORTES_SERVICE_URL
         fromService:
           type: web
           name: ti-reportes
-          property: host
+          property: url
       - key: AGENT_SERVICE_URL
         fromService:
           type: web
           name: ti-agent
-          property: host
+          property: url
 
   # --------------------------------------------------------------------------------
   # MICROSERVICES
