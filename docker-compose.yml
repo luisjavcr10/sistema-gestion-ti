@@ -22,7 +22,9 @@ services:
     restart: unless-stopped
 
   api-gateway:
-    build: ./services/api_gateway
+    build:
+      context: .
+      dockerfile: services/api_gateway/Dockerfile
     container_name: api_gateway
     ports:
       - "${PORT_API_GATEWAY}:8000"
@@ -48,7 +50,9 @@ services:
       retries: 3
 
   equipos-service:
-    build: ./services/equipos_service
+    build:
+      context: .
+      dockerfile: services/equipos_service/Dockerfile
     container_name: equipos_service
     ports:
       - "${PORT_EQUIPOS}:8001"
@@ -66,7 +70,9 @@ services:
     restart: unless-stopped
 
   proveedores-service:
-    build: ./services/proveedores_service
+    build:
+      context: .
+      dockerfile: services/proveedores_service/Dockerfile
     container_name: proveedores_service
     ports:
       - "${PORT_PROVEEDORES}:8002"
@@ -84,7 +90,9 @@ services:
     restart: unless-stopped
 
   mantenimiento-service:
-    build: ./services/mantenimiento_service
+    build:
+      context: .
+      dockerfile: services/mantenimiento_service/Dockerfile
     container_name: mantenimiento_service
     ports:
       - "${PORT_MANTENIMIENTO}:8003"
@@ -102,7 +110,9 @@ services:
     restart: unless-stopped
 
   reportes-service:
-    build: ./services/reportes_service
+    build:
+      context: .
+      dockerfile: services/reportes_service/Dockerfile
     container_name: reportes_service
     ports:
       - "${PORT_REPORTES}:8004"
@@ -122,7 +132,9 @@ services:
     restart: unless-stopped
 
   agent-service:
-    build: ./services/agent_service
+    build:
+      context: .
+      dockerfile: services/agent_service/Dockerfile
     container_name: agent_service
     ports:
       - "${PORT_AGENT}:8005"
@@ -140,7 +152,9 @@ services:
     restart: unless-stopped
 
   frontend:
-    build: ./frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
     container_name: frontend
     ports:
       - "${PORT_FRONTEND}:8501"
