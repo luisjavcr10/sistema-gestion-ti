@@ -7,7 +7,7 @@ services:
     env: docker
     region: oregon
     plan: free
-    dockerContext: ./frontend
+
     dockerfilePath: ./frontend/Dockerfile
     envVars:
       - key: PORT
@@ -26,7 +26,7 @@ services:
     env: docker
     region: oregon
     plan: free
-    dockerContext: ./services/api_gateway
+
     dockerfilePath: ./services/api_gateway/Dockerfile
     envVars:
       - key: PORT
@@ -65,7 +65,7 @@ services:
     env: docker
     region: oregon
     plan: free
-    dockerContext: ./services/equipos_service
+
     dockerfilePath: ./services/equipos_service/Dockerfile
     envVars:
       - key: PORT
@@ -86,7 +86,7 @@ services:
     env: docker
     region: oregon
     plan: free
-    dockerContext: ./services/proveedores_service
+
     dockerfilePath: ./services/proveedores_service/Dockerfile
     envVars:
       - key: PORT
@@ -107,7 +107,7 @@ services:
     env: docker
     region: oregon
     plan: free
-    dockerContext: ./services/mantenimiento_service
+
     dockerfilePath: ./services/mantenimiento_service/Dockerfile
     envVars:
       - key: PORT
@@ -128,7 +128,7 @@ services:
     env: docker
     region: oregon
     plan: free
-    dockerContext: ./services/reportes_service
+
     dockerfilePath: ./services/reportes_service/Dockerfile
     envVars:
       - key: PORT
@@ -149,7 +149,7 @@ services:
     env: docker
     region: oregon
     plan: free
-    dockerContext: ./services/agent_service
+
     dockerfilePath: ./services/agent_service/Dockerfile
     envVars:
       - key: PORT
